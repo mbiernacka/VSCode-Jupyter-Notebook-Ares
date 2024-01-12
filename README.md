@@ -9,9 +9,9 @@ In this guide, we'll explore how to leverage Jupyter Notebooks within Visual Stu
 SSH tunneling, also known as port forwarding, is a technique that allows secure communication between a local machine and a remote server by encapsulating the traffic within the secure SSH protocol. In the context of Ares, we utilize SSH tunneling to access the Jupyter Notebook running on a computing node.
 
 In the upcoming steps, we'll detail the process of setting up the SSH tunnel, connecting to the Jupyter Notebook on Ares, and seamlessly working with the notebook content using Visual Studio Code. 
-## (Optional) Generating and Adding SSH Keys for Ares
+## Generating and Adding SSH Keys for Ares
 
-### Add public key (to avoid entering the password every time)
+### Add public key
 
 1. Navigate to your home directory:
 
