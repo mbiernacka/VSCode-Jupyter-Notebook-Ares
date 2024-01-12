@@ -106,7 +106,7 @@ Wait until the job status shows as "Running" to obtain the necessary nodelist in
 
 
 1. Launch VSCode, navigate to the Remote Explorer, expand "Remotes," and check for 'Tunnels/SSH'. If not present, install the "Remote - SSH" extension from the VSCode Extensions marketplace.
-2. Click on the screwdriver icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/username/.ssh/config`.
+2. Click on the settings icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/username/.ssh/config`.
 3. Paste the following configuration:
 ```
 Host ares
