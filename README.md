@@ -39,7 +39,7 @@ Enter same passphrase again:
 ```
 cd ~/.ssh
 ```
-6. Copy the content of the `id_ed25519` file (private key).
+6. Copy the content of the `id_ed25519.pub` file (private key).
 7. Log in to the Ares supercomputer.
 ```
 ssh your_username@ares.cyfronet.pl
