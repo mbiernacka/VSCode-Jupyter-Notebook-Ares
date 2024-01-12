@@ -140,8 +140,8 @@ This step defines the installation paths for VSCode on Ares and Ares computing n
 1. While logged in to Ares, create a folder to store your project. The location depends on the project size and the number of files. Learn more about storage [here](https://docs.cyfronet.pl/display/~plgpawlik/Ares#Ares-Storage).
 2. Navigate to the "Remote Explorer" in VSCode.
 3. Expand the "SSH" section, and you should see `ares` and `ares_worker`.
-4. Choose "Connect in New Window." It will open the Welcome page of VSCode.
-5. In the Command Palette, navigate to the created folder and open the terminal.
+4. Choose "Connect in New Window" on ares_worker. It will open the Welcome page of VSCode.
+5. In newly opened page open the Command Palette, navigate to the created folder and open the terminal.
 6. Create a new virtual environment
 ```
 python -m venv 'venv_name'
