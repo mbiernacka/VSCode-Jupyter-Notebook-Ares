@@ -87,6 +87,7 @@ nano .bashrc
 ml python
 ```
 This modification ensures that the Python module is loaded each time a new terminal session is initiated. 
+
 4. Reload the updated configuration from .bashrc:
 ```
 source .bashrc
