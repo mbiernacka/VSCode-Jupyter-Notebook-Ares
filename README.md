@@ -39,7 +39,7 @@ Enter same passphrase again:
 ```
 cd ~/.ssh
 ```
-6. Copy the content of the `id_ed25519.pub` file (private key).
+6. Copy the content of the `id_ed25519.pub` file (public key).
 7. Log in to the Ares supercomputer.
 ```
 ssh your_username@ares.cyfronet.pl
@@ -71,7 +71,7 @@ module load python/3.11.0-gcccore-11.3.0
 **Note:**
 Customize the script and module loading according to your specific requirements.
 
-The script initiates an SSH tunnel by running the SSH daemon (sshd) in the background. This tunnel listens on port 22223 and uses a configuration file located at /dev/null while utilizing the specified ed25519 private key.
+The script initiates an SSH tunnel by running the SSH daemon (sshd) in the background. This tunnel listens on port 22223 and uses a configuration file located at /dev/null while utilizing the specified ed25519 public key.
 
 **Additional Step:** If you don't have permission to execute the tunnel.sh file, grant it.
 ```
