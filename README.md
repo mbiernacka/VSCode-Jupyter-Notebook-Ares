@@ -42,7 +42,7 @@ cd ~/.ssh
 6. Copy the content of the `id_ed25519` file (private key).
 7. Log in to the Ares supercomputer.
 ```
-ssh username@ares.cyfronet.pl
+ssh your_username@ares.cyfronet.pl
 ```
 9. Open the `ssh/authorized_keys` file in a text editor on Ares
 ```
@@ -106,18 +106,18 @@ Wait until the job status shows as "Running" to obtain the necessary nodelist in
 
 
 1. Launch VSCode, navigate to the Remote Explorer, expand "Remotes," and check for 'Tunnels/SSH'. If not present, install the "Remote - SSH" extension from the VSCode Extensions marketplace.
-2. Click on the settings icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/username/.ssh/config`.
+2. Click on the settings icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/your_username/.ssh/config`.
 3. Paste the following configuration:
 ```
 Host ares
     HostName ares.cyfronet.pl
-    User username
+    User your_username
 
 Host ares_worker
     HostName nodelist  # Replace with your copied nodelist (ex. ac1111)
     ProxyJump ares
     Port 22223      #Change to the desirable port
-    User username  # Replace with your Ares username
+    User your_username  # Replace with your Ares username
     StrictHostKeyChecking no
 ```
 ProxyJump directive, in conjunction with other parameters, facilitates a secure connection to the computing node `ares_worker` by routing the traffic through the main Ares server `ares` via the specified port and user credentials.
@@ -127,11 +127,11 @@ ProxyJump directive, in conjunction with other parameters, facilitates a secure 
    
 Key1: `ares` and Value1:
 ```
-/net/ascratch/people/username/.vscode
+/net/ascratch/people/your_username/.vscode
 ```
 Item2: `ares_worker`, Value2: 
 ```
-/net/ascratch/people/username/.vscode
+/net/ascratch/people/your_username/.vscode
 ```
 This step defines the installation paths for VSCode on Ares and Ares computing nodes.
 
