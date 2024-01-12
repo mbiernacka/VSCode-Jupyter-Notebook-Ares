@@ -1,4 +1,4 @@
-# How to use Jupyter notebooks in VSCode on Ares?
+# How to use Jupyter Notebook in VSCode on Ares?
 
 **Introduction to Using VSCode Notebook on Ares**
 
@@ -51,7 +51,6 @@ nano ~/.ssh/authorized_keys
 10. Paste the copied public key to the file and save it.
 11. Logout from Ares and try loggin in to it again. After performing these steps, you should no longer be prompted for a password when connecting to Ares, as the SSH keys will be used for authentication.
 
----
 ## Setting Up SSH Tunnel and Environment on Ares
 
 1. SSH Tunnel Script (`tunnel.sh`)
@@ -134,3 +133,35 @@ Item2: `ares_worker`, Value2:
 /net/ascratch/people/username/.vscode
 ```
 This step defines the installation paths for VSCode on Ares and Ares computing nodes.
+
+## Setting Up Jupyter Notebook in VSCode on Ares
+
+1. While logged in to Ares, create a folder to store your project. The location depends on the project size and the number of files. Learn more about storage [here](https://docs.cyfronet.pl/display/~plgpawlik/Ares#Ares-Storage).
+2. Navigate to the "Remote Explorer" in VSCode.
+3. Expand the "SSH" section, and you should see `ares` and `ares_worker`.
+4. Choose "Connect in New Window." It will open the Welcome page of VSCode.
+5. In the Command Palette, navigate to the created folder and open the terminal.
+6. Create a new virtual environment
+```
+python -m venv 'venv_name'
+```
+Replace 'venv_name' with your desired virtual environment name.
+
+7. Activate the Virtual Environment
+```
+source 'venv_name'/bin/activate
+```
+8. Install the `ipykernel` package
+```
+pip install ipykernel
+```
+9. Make sure you have the Python extension and Jupyter extension installed in VSCode. If prompted by VSCode to install any additional packages on ares_worker, follow the suggestions and install them.
+10.   In the Command Palette, choose "Create New Jupyter Notebook."
+11.   Select previously created virtual environment as Kernel.
+
+Now, you have successfully set up and run a Jupyter Notebook in VSCode on Ares.
+
+
+
+
+
