@@ -123,7 +123,7 @@ Host ares_worker
 ProxyJump directive, in conjunction with other parameters, facilitates a secure connection to the computing node `ares_worker` by routing the traffic through the main Ares server `ares` via the specified port and user credentials.
 
 4. Access the Command Palette again and open `Remote-SSH Settings`.
-5. In the Remote.SSH: Server Install Path section, add two paths:
+5. In the `Remote.SSH: Server Install Path section`, add two paths:
    
 Key1: `ares` and Value1:
 ```
