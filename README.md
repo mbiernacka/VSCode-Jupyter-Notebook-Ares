@@ -1,4 +1,4 @@
-# How to use Jupyer notebooks in VSCode on Ares?
+# How to use Jupyter notebooks in VSCode on Ares?
 
 **Introduction to Using VSCode Notebook on Ares**
 
@@ -74,6 +74,10 @@ Customize the script and module loading according to your specific requirements.
 
 The script initiates an SSH tunnel by running the SSH daemon (sshd) in the background. This tunnel listens on port 22223 and uses a configuration file located at /dev/null while utilizing the specified ed25519 private key.
 
+**Additional Step:** If you don't have permission to execute the tunnel.sh file, grant it.
+```
+chmod a+rwx tunnel.sh
+```
 2. Modify `.bashrc` configuration
 ```
 nano .bashrc
@@ -92,5 +96,41 @@ source .bashrc
 ```
 python --version
 ```
+6. Submit the `tunnel.sh` script to the chosen partition
+```
+sbatch -p [your_partition] tunnel.sh
+```
+Wait until the job status shows as "Running" to obtain the necessary nodelist information. You'll need this value for configuring VSCode.
+
+## Visual Studio Code configuration
 
 
+1. Launch VSCode, navigate to the Remote Explorer, expand "Remotes," and check for 'Tunnels/SSH'. If not present, install the "Remote - SSH" extension from the VSCode Extensions marketplace.
+2. Click on the screwdriver icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/username/.ssh/config`.
+3. Paste the following configuration:
+```
+Host ares
+    HostName ares.cyfronet.pl
+    User username
+
+Host ares_worker
+    HostName nodelist  # Replace with your copied nodelist (ex. ac1111)
+    ProxyJump ares
+    Port 22223      #Change to the desirable port
+    User username  # Replace with your Ares username
+    StrictHostKeyChecking no
+```
+ProxyJump directive, in conjunction with other parameters, facilitates a secure connection to the computing node `ares_worker` by routing the traffic through the main Ares server `ares` via the specified port and user credentials.
+
+4. Access the Command Palette again and open `Remote-SSH Settings`.
+5. In the Remote.SSH: Server Install Path section, add two paths:
+   
+Key1: `ares` and Value1:
+```
+/net/ascratch/people/username/.vscode
+```
+Item2: `ares_worker`, Value2: 
+```
+/net/ascratch/people/username/.vscode
+```
+This step defines the installation paths for VSCode on Ares and Ares computing nodes.
