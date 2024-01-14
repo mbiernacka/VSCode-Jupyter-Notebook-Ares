@@ -86,9 +86,8 @@ chmod u+x tunnel.sh
 ```
 nano .bashrc
 ```
-3. Find the line containing "export" and add `ml python` to it. Save the file.
+3. At the end of a file add `ml python` and save it.
 ```
-# export SYSTEMD_PAGER=
 ml python
 ```
 This modification ensures that the Python module is loaded each time a new terminal session is initiated. 
