@@ -2,7 +2,10 @@
 
 **Introduction to Using VSCode Notebook on Ares**
 
-In this guide, we'll explore how to leverage Jupyter Notebooks within Visual Studio Code (VSCode) on the Ares supercomputer. Due to the internal nature of Ares computations, direct exposure of the Jupyter Notebook's web socket to the external world isn't straightforward. Therefore, we'll employ the concept of SSH tunneling to establish a secure connection between our local machine and the Ares computing nodes.
+**Note:**
+The general approach for using Jupyter Notebook in VSCode on the supercomputer is primarily tailored for Unix/Linux-based operating systems. For users on Windows, some adjustments are necessary due to differences in command interpretation, package management, and file path handling.
+
+In this guide, we'll show how to use Jupyter Notebooks within Visual Studio Code (VSCode) on the Ares supercomputer. Worker nodes are located in the internal network of Ares supercomputer and cannot easily expose services on some port at given public IPs. We cannot simply start Jupyter Notebook there and access it directly. So, we'll use SSH tunneling to create a secure link between our computer and the Ares computing nodes.
 
 **SSH Tunneling Concept:**
 
@@ -10,7 +13,7 @@ SSH tunneling, also known as port forwarding, is a technique that allows secure 
 
 In the upcoming steps, we'll detail the process of setting up the SSH tunnel, connecting to the Jupyter Notebook on Ares, and seamlessly working with the notebook content using Visual Studio Code. 
 ## Generating and Adding SSH Keys for Ares
-
+**Note:** Generating a new SSH key using ssh-keygen with the same name as an existing key will overwrite the existing key.
 ### Add public key
 
 1. Navigate to your home directory:
@@ -75,13 +78,15 @@ The script initiates an SSH tunnel by running the SSH daemon (sshd) in the backg
 
 **Additional Step:** If you don't have permission to execute the tunnel.sh file, grant it.
 ```
-chmod a+rwx tunnel.sh
+chmod u+x tunnel.sh
 ```
 2. Modify `.bashrc` configuration
+
+**Note:** Modifying the .bashrc file impacts the terminal environment. Changes affect environment variables, aliases, prompt appearance, and script execution. Incorrect modifications may lead to unintended issues with the terminal's functionality and programs.
 ```
 nano .bashrc
 ```
-3. Find the line containing "export package" and add `ml python` to it. Save the file.
+3. Find the line containing "export" and add `ml python` to it. Save the file.
 ```
 # export SYSTEMD_PAGER=
 ml python
