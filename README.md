@@ -3,13 +3,9 @@
 **Introduction to Using VSCode Notebook on Ares**
 
 **Note:**
-The general approach for using Jupyter Notebook in VSCode on the supercomputer is primarily tailored for Unix/Linux-based operating systems. For users on Windows, some adjustments are necessary due to differences in command interpretation, package management, and file path handling.
+The general approach for using Jupyter Notebook in VSCode on the supercomputer presented in this tutorial is primarily designed for Unix/Linux-based operating systems. For users on Windows, some adjustments are necessary due to differences in command interpretation, package management, and file path handling.
 
 In this guide, we'll show how to use Jupyter Notebooks within [Visual Studio Code on the Ares supercomputer (SLURM)](https://e-dorigatti.github.io/development/2023/12/05/vscode-slurm.html). Worker nodes are located in the internal network of Ares supercomputer and cannot easily expose services on some port at given public IPs. We cannot simply start Jupyter Notebook there and access it directly. So, we'll use SSH tunneling to create a secure link between our computer and the Ares computing nodes.
-
-**SSH Tunneling Concept:**
-
-SSH tunneling, also known as port forwarding, is a technique that allows secure communication between a local machine and a remote server by encapsulating the traffic within the secure SSH protocol. In the context of Ares, we utilize SSH tunneling to access the VSCode running on a computing node.
 
 In the following steps, we'll show the process of setting up the SLURM job scheduler, creating an SSH tunnel, connecting to the Jupyter Notebook on Ares, and seamlessly working with the notebook content using Visual Studio Code.
 
@@ -43,7 +39,7 @@ Enter file in which to save the key (/home/user/.ssh/id_ed25519):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 ```
-The public key is stored at `/home/your_username/.ssh/id_ed25519.pub`, while the private key is stored at `/home/your_username/.ssh/id_ed25519`.
+The public key is stored at `/home/your_local_username/.ssh/id_ed25519.pub`, while the private key is stored at `/home/your_local_username/.ssh/id_ed25519`.
 
 5. Navigate to the .ssh directory:
 ```
@@ -52,7 +48,7 @@ cd ~/.ssh
 6. Copy the content of the `id_ed25519.pub` file (public key).
 7. Log in to the Ares supercomputer to place the generated public key.
 ```
-ssh your_username@ares.cyfronet.pl
+ssh your_ares_login@ares.cyfronet.pl
 ```
 9. Open the `ssh/authorized_keys` file in a text editor on Ares
 ```
@@ -113,7 +109,7 @@ sbatch -p [your_partition] tunnel.sh
 ```
 Wait until the job status shows as "Running" to obtain the necessary nodelist information. You'll need this value for configuring VSCode.
 
-## Visual Studio Code configuration
+## Configuring Visual Studio Code
 
 
 1. Launch VSCode, navigate to the Remote Explorer, expand "Remotes," and check for 'Tunnels/SSH'. 
@@ -129,7 +125,7 @@ If not present, install the "Remote Explorer" and "Remote - SSH" extensions from
 
 
 
-2. Click on the settings icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/your_username/.ssh/config`.
+2. Click on the settings icon next to SSH, opening the Command Palette and select the first suggested file, typically located at `/Users/your_local_username/.ssh/config`.
 <img width="951" alt="Zrzut ekranu 2024-01-14 o 16 27 22" src="https://github.com/mbiernacka/VSCode-Jupyter-Notebook-Ares/assets/75391342/789571a9-f64d-4e3a-bf3f-83a0d6c49998">
 
 
@@ -137,13 +133,13 @@ If not present, install the "Remote Explorer" and "Remote - SSH" extensions from
 ```
 Host ares
     HostName ares.cyfronet.pl
-    User your_username
+    User your_ares_login
 
 Host ares_worker
     HostName nodelist  # Replace with your copied nodelist (ex. ac1111)
     ProxyJump ares
     Port 22223      #Change to the desirable port
-    User your_username  # Replace with your Ares username
+    User your_ares_login  # Replace with your Ares username
     StrictHostKeyChecking no
 ```
 The ProxyJump directive establishes a secure connection to the computing node `ares_worker`. It achieves this by directing the data through the primary Ares server, `ares`, using the designated port and user credentials.
@@ -156,15 +152,15 @@ $HOME space is located on /net/people/plgrid/<login> and is best for storing per
 
 $SCRATCH space is located on /net/ascratch/people/<login> and its purpose is high-speed storage for short-lived data used in computations while having 100TB quota. It is optimal for large files or temporary data associated with computational tasks. Have in mind that data older than 30 days can be deleted without notice.
 
-When you use VSCode or VSCode Insiders on Ares, these tools create a quite big folder (around 500 MB). Because there are lots of small files, it's recommended to keep this folder in $HOME. To do this, access the Command Palette again and open `Remote-SSH Settings`. In the `Remote.SSH: Server Install Path section`, add two paths:
+When you use VSCode or VSCode Insiders on Ares, these tools create a quite big folder (even up to 500 MB). Because there are lots of small files, it's recommended to keep this folder in $HOME. To do this, access the Command Palette again and open `Remote-SSH Settings`. In the `Remote.SSH: Server Install Path section`, add two paths:
 ```
-/net/people/plgrid/your_username/.vscode
+/net/people/plgrid/your_ares_login/.vscode
 ```
 <img width="817" alt="Zrzut ekranu 2024-01-14 o 17 14 12" src="https://github.com/mbiernacka/VSCode-Jupyter-Notebook-Ares/assets/75391342/fb0120b5-4fe5-4ff7-abac-52aac77f3597">
 
 ## Setting Up Jupyter Notebook in VSCode on Ares
 
-1. While logged in to Ares, clone the repository you want to work on or create a folder to store your project. The location,again, depends on the project size and the number of files.
+1. While logged in to Ares, clone the repository you want to work on or create a folder to store your project. The location, again, depends on the project size and the number of files.
 2. Navigate to the "Remote Explorer" in VSCode.
 3. Expand the "SSH" section, and you should see `ares` and `ares_worker`.
 4. Choose "Connect in New Window" on ares_worker. It will open the Welcome page of VSCode.
