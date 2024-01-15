@@ -11,8 +11,12 @@ In this guide, we'll show how to use Jupyter Notebooks within [Visual Studio Cod
 
 SSH tunneling, also known as port forwarding, is a technique that allows secure communication between a local machine and a remote server by encapsulating the traffic within the secure SSH protocol. In the context of Ares, we utilize SSH tunneling to access the VSCode running on a computing node.
 
-In the upcoming steps, we'll detail the process of setting up the SSH tunnel, connecting to the Jupyter Notebook on Ares, and seamlessly working with the notebook content using Visual Studio Code. 
+In the following steps, we'll show the process of setting up the SLURM job scheduler, creating an SSH tunnel, connecting to the Jupyter Notebook on Ares, and seamlessly working with the notebook content using Visual Studio Code.
+
 ## Generating and Adding SSH Keys for Ares
+
+SSH, or Secure Shell, is a cryptographic network protocol providing secure remote access to computers. While password authentication is an option, using SSH keys is highly recommended for enhanced security. SSH key pairs consist of a public key (placed on the server) and a private key (retained locally). Access is granted when these keys match, eliminating the need for passwords. 
+
 **Note:** Generating a new SSH key using ssh-keygen with the same name as an existing key will overwrite the existing key.
 ### Add public key
 
@@ -27,23 +31,26 @@ In the upcoming steps, we'll detail the process of setting up the SSH tunnel, co
  ```
  ls -a | grep .ssh
  ```
-3. Generate an ed25519 key pair (public and private keys):
+3. Generate an [ed25519 key pair](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2) (public and private keys):
   ```
   ssh-keygen -t ed25519
 ```
 4. Set the file name and optional passphrase (press Enter for default in all 3 steps):
 
-```
+**Note:** You have the option to use a passphrase, and it is highly recommended. The security of a key pair, regardless of the encryption method, relies on ensuring that it remains inaccessible to anyone else.
+ ```
 Enter file in which to save the key (/home/user/.ssh/id_ed25519):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 ```
+The public key is stored at `/home/your_username/.ssh/id_ed25519.pub`, while the private key is stored at `/home/your_username/.ssh/id_ed25519`.
+
 5. Navigate to the .ssh directory:
 ```
 cd ~/.ssh
 ```
 6. Copy the content of the `id_ed25519.pub` file (public key).
-7. Log in to the Ares supercomputer.
+7. Log in to the Ares supercomputer to place the generated public key.
 ```
 ssh your_username@ares.cyfronet.pl
 ```
@@ -52,7 +59,7 @@ ssh your_username@ares.cyfronet.pl
 nano ~/.ssh/authorized_keys
 ```
 10. Paste the copied public key to the file and save it.
-11. Logout from Ares and try loggin in to it again. After performing these steps, you should no longer be prompted for a password when connecting to Ares, as the SSH keys will be used for authentication.
+11. Logout from Ares and try loggin in to it again. After performing these steps, you should no longer be prompted for a password when connecting to Ares, as the SSH keys will be used for authentication. But if you set a passphrase during the SSH key creation, you'll be prompted to input it while logging in.
 
 ## Setting Up SSH Tunnel and Environment on Ares
 
@@ -72,7 +79,7 @@ module load python/3.11.0-gcccore-11.3.0
 /usr/sbin/sshd -D -p 22223 -f /dev/null -h ${HOME}/.ssh/id_ed25519
 ```
 **Note:**
-Customize the script and module loading according to your specific requirements.
+The tunnel.sh script is designed for setting up an SSH tunnel on Ares and can work without loading the `gcc` and `python` modules. However, these modules are loaded in the script to provide a suitable environment for the SSH tunnel and for further work in Jupyter Notebooks. Have in mind that Ares may have older versions of Python. Customize the script and module loading according to your specific requirements.
 
 The script initiates an SSH tunnel by running the SSH daemon (sshd) in the background. This tunnel listens on port 22223 and uses a configuration file located at /dev/null while utilizing the specified ed25519 public key.
 
@@ -157,12 +164,12 @@ When you use VSCode or VSCode Insiders on Ares, these tools create a quite big f
 
 ## Setting Up Jupyter Notebook in VSCode on Ares
 
-1. While logged in to Ares, create a folder to store your project. The location depends on the project size and the number of files.
+1. While logged in to Ares, clone the repository you want to work on or create a folder to store your project. The location,again, depends on the project size and the number of files.
 2. Navigate to the "Remote Explorer" in VSCode.
 3. Expand the "SSH" section, and you should see `ares` and `ares_worker`.
 4. Choose "Connect in New Window" on ares_worker. It will open the Welcome page of VSCode.
-5. In newly opened page open the Command Palette, navigate to the created folder and open the terminal.
-6. Create a new virtual environment
+5. In newly opened page open the Command Palette, navigate to the cloned/created folder and open the terminal.
+6. Create a new [virtual environment](https://devinschumacher.com/how-to-setup-jupyter-notebook-virtual-environment-vs-code-kernels/)
 ```
 python -m venv 'venv_name'
 ```
@@ -176,9 +183,9 @@ source 'venv_name'/bin/activate
 ```
 pip install ipykernel
 ```
-9. Make sure you have the Python extension and Jupyter extension installed in VSCode. If prompted by VSCode to install any additional packages on ares_worker, follow the suggestions and install them.
-10.   In the Command Palette, choose "Create New Jupyter Notebook."
-11.   Select previously created virtual environment as Kernel.
+9. Make sure you have the Python extension and Jupyter extension installed in VSCode. If prompted by VSCode to install any additional packages on `ares_worker`, follow the suggestions and install them.
+10.   In the Command Palette, choose "Create New Jupyter Notebook" or start working on existing files from cloned repository.
+11.   You can select previously created virtual environment as Kernel.
 
 Now, you have successfully set up and run a Jupyter Notebook in VSCode on Ares.
 
